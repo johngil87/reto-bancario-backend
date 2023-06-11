@@ -1,9 +1,6 @@
 package co.com.sofka.jpa.entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,6 +19,7 @@ public class ClienteEntity {
     private String idCliente;
     private String contrasena;
     private boolean estado;
-    @Column(name = "id_persona")
-    private String idPersona;
+    @OneToOne
+    @JoinColumn(name = "id_persona")
+    private PersonaEntity idPersona;
 }

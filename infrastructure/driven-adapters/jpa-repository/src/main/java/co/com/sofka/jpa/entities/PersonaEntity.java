@@ -2,6 +2,7 @@ package co.com.sofka.jpa.entities;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,4 +24,6 @@ public class PersonaEntity {
     private String genero;
     private Integer edad;
     private String telefono;
+    @OneToOne(mappedBy = "idPersona")
+    private ClienteEntity cliente;
 }
