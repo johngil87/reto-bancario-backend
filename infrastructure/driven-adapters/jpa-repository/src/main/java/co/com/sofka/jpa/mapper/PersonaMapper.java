@@ -19,11 +19,10 @@ public class PersonaMapper {
                 .build();
     }
 
-    public static PersonaEntity toNewEntity(Cliente data){
+    public static PersonaEntity toEntity(Cliente data){
         PersonaEntity newPerson = PersonaEntity.builder()
                 .cliente(toClienteEntity(data))
                 .direccion(data.getDireccion())
-                .identificacion(data.getIdentificacion())
                 .edad(data.getEdad())
                 .genero(data.getGenero())
                 .nombre(data.getNombre())
@@ -34,6 +33,10 @@ public class PersonaMapper {
                 .contrasena(data.getContrasena())
                 .estado(data.isEstado())
                 .build();
+        if (null != data.getIdentificacion()) {
+            newPerson.setIdentificacion(data.getIdentificacion());
+            newCliente.setIdCliente(data.getIdCliente());
+        }
         newPerson.setCliente(newCliente);
         return newPerson;
     }
