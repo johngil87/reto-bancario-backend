@@ -5,5 +5,8 @@ import reactor.core.publisher.Mono;
 
 public interface ClienteRepository {
 
-    Mono<Cliente> savePersona(Cliente cliente);
+    Mono<Cliente> saveCliente(Cliente cliente);
+    Mono<Cliente> getCliente(String id);
+    Mono<Cliente> updateCliente(Cliente cliente);
+    Mono<Void> deleteCliente(String id);
 }

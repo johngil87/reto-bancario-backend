@@ -18,7 +18,23 @@ public class PersonaAdapter extends AdapterOperations<Persona, PersonaEntity,Str
     }
 
     @Override
-    public Mono<Cliente> savePersona(Cliente cliente) {
-        return Mono.just(PersonaMapper.toData(repository.save(PersonaMapper.toNewEntity(cliente))));
+    public Mono<Cliente> saveCliente(Cliente cliente) {
+        return Mono.just(PersonaMapper.toData(repository.save(PersonaMapper.toEntity(cliente))));
+    }
+
+    @Override
+    public Mono<Cliente> getCliente(String id) {
+        return repository.findById(id).map(item -> Mono.just(PersonaMapper.toData(item))).orElse(Mono.empty());
+    }
+
+    @Override
+    public Mono<Cliente> updateCliente(Cliente cliente) {
+        return Mono.just(PersonaMapper.toData(repository.save(PersonaMapper.toEntity(cliente))));
+    }
+
+    @Override
+    public Mono<Void> deleteCliente(String id) {
+        repository.deleteById(id);
+        return Mono.empty();
     }
 }
