@@ -5,6 +5,8 @@ import co.com.sofka.jpa.entities.PersonaEntity;
 import co.com.sofka.model.cliente.Cliente;
 import co.com.sofka.model.persona.Persona;
 
+import java.util.UUID;
+
 public class PersonaMapper {
 
     public static Cliente toData(PersonaEntity entity){
@@ -16,12 +18,14 @@ public class PersonaMapper {
                 .telefono(entity.getTelefono())
                 .genero(entity.getGenero())
                 .edad(entity.getEdad())
+                .idCliente(entity.getCliente().getIdCliente())
+                .contrasena(entity.getCliente().getContrasena())
                 .build();
     }
 
     public static PersonaEntity toEntity(Cliente data){
         PersonaEntity newPerson = PersonaEntity.builder()
-                .cliente(toClienteEntity(data))
+                .identificacion(data.getIdentificacion())
                 .direccion(data.getDireccion())
                 .edad(data.getEdad())
                 .genero(data.getGenero())
@@ -29,14 +33,11 @@ public class PersonaMapper {
                 .telefono(data.getTelefono())
                 .build();
         ClienteEntity newCliente = ClienteEntity.builder()
+                .idCliente(null != data.getIdCliente()?data.getIdCliente():UUID.randomUUID().toString().replace("-","").substring(0,15))
                 .idPersona(newPerson)
                 .contrasena(data.getContrasena())
                 .estado(data.isEstado())
                 .build();
-        if (null != data.getIdentificacion()) {
-            newPerson.setIdentificacion(data.getIdentificacion());
-            newCliente.setIdCliente(data.getIdCliente());
-        }
         newPerson.setCliente(newCliente);
         return newPerson;
     }

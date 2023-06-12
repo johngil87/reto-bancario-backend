@@ -8,7 +8,7 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 public class ClienteUseCase {
 
-    private ClienteRepository clienteRepository;
+    private final ClienteRepository clienteRepository;
 
     public Mono<Cliente> saveClient(Cliente cliente){
         return clienteRepository.saveCliente(cliente);
