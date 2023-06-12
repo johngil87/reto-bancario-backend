@@ -13,5 +13,4 @@ public class Cliente extends Persona {
     private String idCliente;
     private String contrasena;
     private boolean estado;
-    private String idPersona;
 }

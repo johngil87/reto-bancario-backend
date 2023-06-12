@@ -1,9 +1,6 @@
 package co.com.sofka.jpa.entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -21,11 +18,13 @@ public class MovimientosEntity {
 
     @Id
     @Column(name = "id_movimiento")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idMovimiento;
     private Date fecha;
     private String tipo;
     private Double valor;
     private Double saldo;
-    @Column(name = "id_cuenta")
-    private String idCuenta;
+    @ManyToOne
+    @JoinColumn(name = "id_cuenta")
+    private CuentaEntity idCuenta;
 }
