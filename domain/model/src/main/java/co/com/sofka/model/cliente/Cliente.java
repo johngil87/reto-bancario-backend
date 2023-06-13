@@ -2,7 +2,6 @@ package co.com.sofka.model.cliente;
 import co.com.sofka.model.persona.Persona;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
-//import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor

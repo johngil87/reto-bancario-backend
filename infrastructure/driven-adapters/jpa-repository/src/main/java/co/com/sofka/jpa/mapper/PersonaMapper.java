@@ -42,8 +42,9 @@ public class PersonaMapper {
         return newPerson;
     }
 
-    private static ClienteEntity toClienteEntity(Cliente data){
+    public static ClienteEntity toClienteEntity(Cliente data){
         return ClienteEntity.builder()
+                .idCliente(data.getIdCliente())
                 .estado(data.isEstado())
                 .contrasena(data.getContrasena())
                 .build();
