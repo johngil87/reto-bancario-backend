@@ -1,4 +1,37 @@
 package co.com.sofka.jpa.cuenta;
 
-public class CuentaAdapter {
+import co.com.sofka.jpa.entities.CuentaEntity;
+import co.com.sofka.jpa.helper.AdapterOperations;
+import co.com.sofka.jpa.mapper.CuentaMapper;
+import co.com.sofka.model.cuenta.Cuenta;
+import co.com.sofka.model.cuenta.gateways.CuentaRepository;
+import org.reactivecommons.utils.ObjectMapper;
+import org.springframework.stereotype.Repository;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+
+import java.util.function.Function;
+
+@Repository
+public class CuentaAdapter extends AdapterOperations<Cuenta, CuentaEntity,Integer, CuentaJpaRepository> implements CuentaRepository {
+
+    public CuentaAdapter(CuentaJpaRepository repository, ObjectMapper mapper) {
+        super(repository, mapper, d -> mapper.mapBuilder(d,Cuenta.CuentaBuilder.class).build());
+    }
+
+    @Override
+    public Mono<Cuenta> saveCuenta(Cuenta cuenta) {
+        repository.save(CuentaMapper.toEntity(cuenta));
+        return Mono.empty();
+    }
+
+    @Override
+    public Mono<Cuenta> getCuenta(Integer id) {
+        return null;
+    }
+
+    @Override
+    public Flux<Cuenta> getAllCuentas() {
+        return null;
+    }
 }
