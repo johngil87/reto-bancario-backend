@@ -46,4 +46,9 @@ public class CuentaAdapter extends AdapterOperations<Cuenta, CuentaEntity,Intege
     public Mono<Cuenta> updateCuenta(Cuenta cuenta) {
         return Mono.just(CuentaMapper.toData(repository.save(CuentaMapper.toEntity(cuenta))));
     }
+
+    @Override
+    public Flux<Cuenta> getAll() {
+        return Flux.fromIterable(CuentaMapper.toDataList(repository.findAll()));
+    }
 }

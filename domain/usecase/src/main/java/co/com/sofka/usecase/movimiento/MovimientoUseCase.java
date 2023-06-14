@@ -59,6 +59,10 @@ public class MovimientoUseCase {
                 .flatMap(item-> movimientosClienteRepository.obtenerMovimientosClienteFecha(id,fechaInicial,fechaFinal));
     }
 
+    public Flux<Movimientos> getAllMovimientos(){
+        return movimientosRepository.getAll();
+    }
+
     private Mono<Movimientos> calcularSaldo(Cuenta cuenta, Movimientos newMove){
         if (newMove.getTipo().equals(TYPEBEBIT) ) {
             return restarSaldo(cuenta,newMove);

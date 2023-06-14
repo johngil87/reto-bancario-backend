@@ -28,6 +28,11 @@ public class CuentaController {
     }
 
     @GetMapping
+    public  Flux<Cuenta> obtenerCuentas(){
+        return cuentaUseCase.getAll();
+    }
+
+    @GetMapping("/listId")
     public Flux<Cuenta> obtenerCuentas(@RequestParam List<Integer> ids){
         return cuentaUseCase.getAllCuentas(ids);
     }

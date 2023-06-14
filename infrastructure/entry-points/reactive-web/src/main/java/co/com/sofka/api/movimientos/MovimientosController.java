@@ -34,13 +34,18 @@ public class MovimientosController {
         return movimientoUseCase.getMovimiento(id);
     }
 
+    @GetMapping
+    public Flux<Movimientos> obtenerMovimientos(){
+        return movimientoUseCase.getAllMovimientos();
+    }
+
 
     @GetMapping("/cliente")
     public Flux<MovimientosCliente> obtenerMovimientosPorClienteRangoFechas(@RequestParam("id") String id, @RequestParam("fechaInicial") Date fechaInicial, @RequestParam("fechaFinal") Date fechaFinal ){
         return movimientoUseCase.getListMovimientosCliente(id, fechaInicial, fechaFinal);
     }
 
-    @GetMapping
+    @GetMapping("/listId")
     public Flux<Movimientos> obtenerListaMovimientos(@RequestParam List<Integer> ids){
         return movimientoUseCase.getListMovimientos(ids);
     }
