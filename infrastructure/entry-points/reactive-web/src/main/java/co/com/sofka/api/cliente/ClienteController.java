@@ -5,6 +5,7 @@ import co.com.sofka.usecase.cliente.ClienteUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @RestController
@@ -14,9 +15,14 @@ public class ClienteController {
 
     private final ClienteUseCase clienteUseCase;
 
-    @GetMapping
+    @GetMapping("/id")
     public Mono<Cliente> obtenerCliente(@RequestParam String id){
         return clienteUseCase.getClient(id);
+    }
+
+    @GetMapping
+    public Flux<Cliente> obtenerClientes(){
+        return clienteUseCase.getAll();
     }
 
     @PostMapping

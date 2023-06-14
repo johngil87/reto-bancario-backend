@@ -27,6 +27,10 @@ public class CuentaUseCase {
                 .switchIfEmpty(Mono.error(BusinessExceptions.Type.INVALID_ID_ACOUNT.build()));
     }
 
+    public Flux<Cuenta> getAll(){
+        return cuentaRepository.getAll();
+    }
+
     public Flux<Cuenta> getAllCuentas(List<Integer> ids){
         return cuentaRepository.getAllCuentasById(ids);
     }

@@ -12,6 +12,7 @@ public interface MovimientosRepository {
     Mono<Movimientos> updateMovimiento(Movimientos movimientos);
     Mono<Movimientos> getMovimiento(Integer id);
     Mono<Movimientos> getlastMovimiento(Integer id);
+    Flux<Movimientos> getAll();
     Mono<Void> deleteMovimiento(Integer id);
     Flux<Movimientos> getListMovimientosByid(List<Integer> ids);
 }

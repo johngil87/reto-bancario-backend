@@ -7,6 +7,7 @@ import co.com.sofka.model.cliente.Cliente;
 import co.com.sofka.model.cliente.gateways.ClienteRepository;
 import org.reactivecommons.utils.ObjectMapper;
 import org.springframework.stereotype.Repository;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Repository
@@ -30,6 +31,11 @@ public class PersonaAdapter extends AdapterOperations<Cliente, ClienteEntity,Str
     @Override
     public Mono<Cliente> updateCliente(Cliente cliente) {
         return Mono.just(ClienteMapper.toData(repository.save(ClienteMapper.toEntity(cliente))));
+    }
+
+    @Override
+    public Flux<Cliente> getAll() {
+        return Flux.fromIterable(ClienteMapper.toDataList(repository.findAll()));
     }
 
     @Override

@@ -4,6 +4,7 @@ import co.com.sofka.model.cliente.Cliente;
 import co.com.sofka.model.cliente.gateways.ClienteRepository;
 import co.com.sofka.model.ex.BusinessExceptions;
 import lombok.RequiredArgsConstructor;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @RequiredArgsConstructor
@@ -30,5 +31,9 @@ public class ClienteUseCase {
         return getClient(id)
                 .switchIfEmpty(Mono.error(BusinessExceptions.Type.INVALID_ID_CLIENT.build()))
                 .flatMap(item-> clienteRepository.deleteCliente(id));
+    }
+
+    public Flux<Cliente> getAll(){
+        return clienteRepository.getAll();
     }
 }

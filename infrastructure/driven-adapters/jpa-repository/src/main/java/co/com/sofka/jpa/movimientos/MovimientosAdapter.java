@@ -44,6 +44,11 @@ public class MovimientosAdapter extends AdapterOperations<Movimientos,Movimiento
     }
 
     @Override
+    public Flux<Movimientos> getAll() {
+        return Flux.fromIterable(MovimientoMapper.toListData(repository.findAll()));
+    }
+
+    @Override
     public Mono<Void> deleteMovimiento(Integer id) {
         repository.deleteById(id);
         return Mono.empty();

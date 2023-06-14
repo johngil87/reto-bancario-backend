@@ -3,6 +3,9 @@ package co.com.sofka.jpa.mapper;
 import co.com.sofka.jpa.entities.ClienteEntity;
 import co.com.sofka.model.cliente.Cliente;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ClienteMapper {
 
     public static Cliente toData(ClienteEntity entity){
@@ -29,6 +32,12 @@ public class ClienteMapper {
                 .contrasena(data.getContrasena())
                 .estado(data.isEstado())
                 .build();
+    }
+
+    public static List<Cliente> toDataList(Iterable<ClienteEntity> entityList){
+        List<Cliente> list = new ArrayList<>();
+        entityList.forEach(item -> list.add(toData(item)));
+        return list;
     }
 
 }

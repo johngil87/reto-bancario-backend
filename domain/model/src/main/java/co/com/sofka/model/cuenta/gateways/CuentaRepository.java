@@ -13,4 +13,5 @@ public interface CuentaRepository {
     Flux<Cuenta> getAllCuentasById(List<Integer> ids);
     Mono<Void> deleteCuenta(Integer id);
     Mono<Cuenta> updateCuenta(Cuenta cuenta);
+    Flux<Cuenta> getAll();
 }
