@@ -3,6 +3,7 @@ package co.com.sofka.usecase.cuenta;
 import co.com.sofka.model.cliente.gateways.ClienteRepository;
 import co.com.sofka.model.cuenta.Cuenta;
 import co.com.sofka.model.cuenta.gateways.CuentaRepository;
+import co.com.sofka.model.ex.BusinessExceptions;
 import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -17,13 +18,13 @@ public class CuentaUseCase {
 
     public Mono<Cuenta> saveCuenta(Cuenta cuenta){
         return clienteRepository.getCliente(cuenta.getCliente().getIdentificacion())
-                .switchIfEmpty(Mono.error(new Exception("Cliente no existe")))
+                .switchIfEmpty(Mono.error(BusinessExceptions.Type.INVALID_ID_CLIENT.build()))
                 .flatMap(item -> cuentaRepository.saveCuenta(cuenta));
     }
 
     public Mono<Cuenta> getCuenta(Integer id){
         return cuentaRepository.getCuenta(id)
-                .switchIfEmpty(Mono.error(new Exception("Cuenta no existe")));
+                .switchIfEmpty(Mono.error(BusinessExceptions.Type.INVALID_ID_ACOUNT.build()));
     }
 
     public Flux<Cuenta> getAllCuentas(List<Integer> ids){
@@ -31,13 +32,16 @@ public class CuentaUseCase {
     }
 
     public Mono<Void> deleteCuenta(Integer id){
-        return cuentaRepository.deleteCuenta(id)
-                .onErrorResume(Mono::error);
+        return getCuenta(id)
+                .switchIfEmpty(Mono.error(BusinessExceptions.Type.INVALID_ID_ACOUNT.build()))
+                .flatMap(item ->cuentaRepository.deleteCuenta(item.getNumeroCuenta()));
     }
 
     public Mono<Cuenta> updateCuenta(Cuenta cuenta){
-        return getCuenta(cuenta.getNumeroCuenta())
-                .flatMap(item-> cuentaRepository.updateCuenta(cuenta))
-                .onErrorResume(Mono::error);
+        return clienteRepository.getCliente(cuenta.getCliente().getIdentificacion())
+                .switchIfEmpty(Mono.error(BusinessExceptions.Type.INVALID_ID_CLIENT.build()))
+                .flatMap(item-> getCuenta(cuenta.getNumeroCuenta()))
+                .switchIfEmpty(Mono.error(BusinessExceptions.Type.INVALID_ID_ACOUNT.build()))
+                .flatMap(item-> cuentaRepository.updateCuenta(cuenta));
     }
 }

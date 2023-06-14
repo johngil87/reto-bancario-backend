@@ -2,6 +2,7 @@ package co.com.sofka.usecase.cliente;
 
 import co.com.sofka.model.cliente.Cliente;
 import co.com.sofka.model.cliente.gateways.ClienteRepository;
+import co.com.sofka.model.ex.BusinessExceptions;
 import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Mono;
 
@@ -16,13 +17,18 @@ public class ClienteUseCase {
 
     public Mono<Cliente> getClient(String id){
         return clienteRepository.getCliente(id)
-                .switchIfEmpty(Mono.error(new Exception("no existe cliente")));
+                .switchIfEmpty(Mono.error(BusinessExceptions.Type.INVALID_ID_CLIENT.build()));
     }
 
     public Mono<Cliente> updateClient(Cliente cliente){
-        return clienteRepository.updateCliente(cliente);
+        return getClient(cliente.getIdentificacion())
+                .switchIfEmpty(Mono.error(BusinessExceptions.Type.INVALID_ID_CLIENT.build()))
+                .flatMap(item-> clienteRepository.updateCliente(cliente));
     }
 
     public Mono<Void> deleteClient(String id){
-        return clienteRepository.deleteCliente(id);    }
+        return getClient(id)
+                .switchIfEmpty(Mono.error(BusinessExceptions.Type.INVALID_ID_CLIENT.build()))
+                .flatMap(item-> clienteRepository.deleteCliente(id));
+    }
 }
