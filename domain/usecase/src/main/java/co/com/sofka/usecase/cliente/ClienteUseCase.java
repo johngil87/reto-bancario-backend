@@ -16,18 +16,18 @@ public class ClienteUseCase {
         return clienteRepository.saveCliente(cliente);
     }
 
-    public Mono<Cliente> getClient(String id){
+    public Mono<Cliente> getClient(Integer id){
         return clienteRepository.getCliente(id)
                 .switchIfEmpty(Mono.error(BusinessExceptions.Type.INVALID_ID_CLIENT.build()));
     }
 
     public Mono<Cliente> updateClient(Cliente cliente){
-        return getClient(cliente.getIdentificacion())
+        return getClient(cliente.getIdCliente())
                 .switchIfEmpty(Mono.error(BusinessExceptions.Type.INVALID_ID_CLIENT.build()))
                 .flatMap(item-> clienteRepository.updateCliente(cliente));
     }
 
-    public Mono<Void> deleteClient(String id){
+    public Mono<Void> deleteClient(Integer id){
         return getClient(id)
                 .switchIfEmpty(Mono.error(BusinessExceptions.Type.INVALID_ID_CLIENT.build()))
                 .flatMap(item-> clienteRepository.deleteCliente(id));

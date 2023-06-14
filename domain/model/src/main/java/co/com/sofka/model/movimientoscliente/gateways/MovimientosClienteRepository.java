@@ -7,5 +7,5 @@ import java.util.Date;
 
 public interface MovimientosClienteRepository {
 
-    Flux<MovimientosCliente> obtenerMovimientosClienteFecha(String id, Date fechaInicial, Date fechaFinal);
+    Flux<MovimientosCliente> obtenerMovimientosClienteFecha(Integer id, Date fechaInicial, Date fechaFinal);
 }

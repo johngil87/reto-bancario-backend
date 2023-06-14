@@ -27,6 +27,7 @@ public class CuentaMapper {
                 .genero(cuenta.getCliente().getGenero())
                 .nombre(cuenta.getCliente().getNombre())
                 .telefono(cuenta.getCliente().getTelefono())
+                .idClitente(null != cuenta.getCliente().getIdCliente()?cuenta.getCliente().getIdCliente(): null)
                 .build();
         newCuenta.setIdCliente(cliente);
         return newCuenta;

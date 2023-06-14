@@ -18,6 +18,7 @@ public class ClienteMapper {
                 .genero(entity.getGenero())
                 .edad(entity.getEdad())
                 .contrasena(entity.getContrasena())
+                .idCliente(entity.getIdClitente())
                 .build();
     }
 
@@ -31,6 +32,7 @@ public class ClienteMapper {
                 .telefono(data.getTelefono())
                 .contrasena(data.getContrasena())
                 .estado(data.isEstado())
+                .idClitente(data.getIdCliente())
                 .build();
     }
 

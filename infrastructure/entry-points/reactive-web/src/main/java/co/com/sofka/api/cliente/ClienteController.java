@@ -16,7 +16,7 @@ public class ClienteController {
     private final ClienteUseCase clienteUseCase;
 
     @GetMapping("/id")
-    public Mono<Cliente> obtenerCliente(@RequestParam String id){
+    public Mono<Cliente> obtenerCliente(@RequestParam Integer id){
         return clienteUseCase.getClient(id);
     }
 
@@ -36,7 +36,7 @@ public class ClienteController {
     }
 
     @DeleteMapping
-    public  Mono<Void> eliminarCliente(@RequestParam String id){
+    public  Mono<Void> eliminarCliente(@RequestParam Integer id){
         return clienteUseCase.deleteClient(id);
     }
 }

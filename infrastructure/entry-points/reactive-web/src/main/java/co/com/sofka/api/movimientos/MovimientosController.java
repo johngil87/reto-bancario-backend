@@ -41,7 +41,7 @@ public class MovimientosController {
 
 
     @GetMapping("/cliente")
-    public Flux<MovimientosCliente> obtenerMovimientosPorClienteRangoFechas(@RequestParam("id") String id, @RequestParam("fechaInicial") Date fechaInicial, @RequestParam("fechaFinal") Date fechaFinal ){
+    public Flux<MovimientosCliente> obtenerMovimientosPorClienteRangoFechas(@RequestParam("id") Integer id, @RequestParam("fechaInicial") Date fechaInicial, @RequestParam("fechaFinal") Date fechaFinal ){
         return movimientoUseCase.getListMovimientosCliente(id, fechaInicial, fechaFinal);
     }
 
