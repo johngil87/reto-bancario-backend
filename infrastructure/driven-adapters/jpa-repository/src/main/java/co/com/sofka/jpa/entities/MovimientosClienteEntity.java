@@ -34,4 +34,6 @@ public class MovimientosClienteEntity {
     private boolean estado;
     @Column(name = "TIPOCUENTA")
     private String tipoCuenta;
+    @Column(name = "IDCLIENTE")
+    private Integer idCliente;
 }

@@ -44,6 +44,7 @@ class MovimientosControllerTest {
     ClienteUseCase clienteUseCase;
 
     Cliente cliente = Cliente.builder()
+            .idCliente(1)
             .contrasena("contra")
             .telefono("221133")
             .edad(25)
@@ -55,6 +56,7 @@ class MovimientosControllerTest {
             .build();
 
     Cliente cliente2 = Cliente.builder()
+            .idCliente(2)
             .contrasena("contra")
             .telefono("22113300")
             .edad(25)
@@ -140,8 +142,8 @@ class MovimientosControllerTest {
         Mockito.when(cuentaUseCase.getCuenta(0)).thenReturn(Mono.error(BusinessExceptions.Type.INVALID_ID_ACOUNT.build()));
         Mockito.when(movimientoUseCase.saveMovimiento(movimiento3)).thenReturn(Mono.error(BusinessExceptions.Type.INVALID_ID_BALANCE.build()));
         Mockito.when(movimientoUseCase.deleteMovimiento(1)).thenReturn(Mono.empty());
-        Mockito.when(clienteUseCase.getClient("221133")).thenReturn(Mono.just(cliente));
-        Mockito.when(movimientoUseCase.getListMovimientosCliente("221133",new Date("2020/06/10"), new Date())).thenReturn(Flux.just(movimientosCliente));
+        Mockito.when(clienteUseCase.getClient(1)).thenReturn(Mono.just(cliente));
+        Mockito.when(movimientoUseCase.getListMovimientosCliente(1,new Date("2020/06/10"), new Date())).thenReturn(Flux.just(movimientosCliente));
     }
 
     @Test

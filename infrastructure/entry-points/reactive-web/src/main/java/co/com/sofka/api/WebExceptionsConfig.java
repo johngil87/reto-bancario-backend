@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.client.HttpServerErrorException;
 import reactor.core.publisher.Mono;
 
+import java.sql.SQLDataException;
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 
 @Log
@@ -35,6 +37,16 @@ public class WebExceptionsConfig {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         return new ResponseEntity<>(Mono.just(ErrorResponse.builder().message("servicio no disponible intente mas tarde").dateTime(LocalDateTime.now()).build()), headers, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler({SQLDataException.class, SQLException.class})
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ResponseBody
+    public ErrorResponse SQLException(Exception ex) {
+        log.info(LocalDateTime.now() + " " +ex.getMessage());
+        return ErrorResponse.builder()
+                .message("Ha ocurrido un error inesperado: con la base de datos ")
+                .dateTime(LocalDateTime.now()).build();
     }
 
     @ExceptionHandler(Exception.class)

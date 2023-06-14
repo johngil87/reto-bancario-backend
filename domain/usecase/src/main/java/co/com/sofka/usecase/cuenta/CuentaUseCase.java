@@ -17,7 +17,7 @@ public class CuentaUseCase {
     private final ClienteRepository clienteRepository;
 
     public Mono<Cuenta> saveCuenta(Cuenta cuenta){
-        return clienteRepository.getCliente(cuenta.getCliente().getIdentificacion())
+        return clienteRepository.getCliente(cuenta.getCliente().getIdCliente())
                 .switchIfEmpty(Mono.error(BusinessExceptions.Type.INVALID_ID_CLIENT.build()))
                 .flatMap(item -> cuentaRepository.saveCuenta(cuenta));
     }
@@ -42,7 +42,7 @@ public class CuentaUseCase {
     }
 
     public Mono<Cuenta> updateCuenta(Cuenta cuenta){
-        return clienteRepository.getCliente(cuenta.getCliente().getIdentificacion())
+        return clienteRepository.getCliente(cuenta.getCliente().getIdCliente())
                 .switchIfEmpty(Mono.error(BusinessExceptions.Type.INVALID_ID_CLIENT.build()))
                 .flatMap(item-> getCuenta(cuenta.getNumeroCuenta()))
                 .switchIfEmpty(Mono.error(BusinessExceptions.Type.INVALID_ID_ACOUNT.build()))

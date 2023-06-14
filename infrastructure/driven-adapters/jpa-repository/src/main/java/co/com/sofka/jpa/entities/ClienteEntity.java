@@ -2,9 +2,9 @@ package co.com.sofka.jpa.entities;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 import java.util.List;
 
@@ -12,17 +12,14 @@ import java.util.List;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder(toBuilder = true)
+@SuperBuilder
 @Table(name = "cliente")
-public class ClienteEntity {
+public class ClienteEntity extends PersonaEntity{
 
     @Id
-    private String identificacion;
-    private String direccion;
-    private String nombre;
-    private String genero;
-    private Integer edad;
-    private String telefono;
+    @Column(name = "id_cliente")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer idClitente;
     private String contrasena;
     private boolean estado;
     @OneToMany(mappedBy = "idCliente", cascade = CascadeType.ALL, fetch = FetchType.EAGER)

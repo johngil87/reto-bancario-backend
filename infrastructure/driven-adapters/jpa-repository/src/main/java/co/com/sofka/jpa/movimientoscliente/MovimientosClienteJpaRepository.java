@@ -12,14 +12,14 @@ import java.util.List;
 public interface MovimientosClienteJpaRepository extends CrudRepository<MovimientosClienteEntity, Integer>, QueryByExampleExecutor<MovimientosClienteEntity> {
 
     @Query(
-            value = "SELECT MO.ID_MOVIMIENTO AS IDMOVIMIENTO, MO.TIPO, MO.VALOR, MO.SALDO, MO.FECHA, CLI.NOMBRE, " +
+            value = "SELECT MO.ID_MOVIMIENTO AS IDMOVIMIENTO, MO.TIPO, MO.VALOR, MO.SALDO, MO.FECHA, CLI.NOMBRE, CLI.ID_CLIENTE AS IDCLIENTE, " +
                     "CU.SALDO_INICIAL AS SALDOINICIAL, CU.ESTADO, CU.NUMERO_CUENTA AS NUMEROCUENTA, CU.TIPO_CUENTA as TIPOCUENTA " +
                     "FROM MOVIMIENTOS MO " +
                     "INNER JOIN CUENTA CU ON MO.ID_CUENTA = CU.NUMERO_CUENTA " +
-                    "INNER JOIN CLIENTE CLI ON CLI.IDENTIFICACION = CU.ID_CLIENTE " +
-                    "WHERE CLI.IDENTIFICACION = :id " +
+                    "INNER JOIN CLIENTE CLI ON CLI.ID_CLIENTE = CU.ID_CLIENTE " +
+                    "WHERE CLI.ID_CLIENTE = :id " +
                     "AND MO.FECHA BETWEEN :fechaInicial AND :fechaFinal ",
             nativeQuery = true
     )
-    List<MovimientosClienteEntity> listMovedByClient(@Param("id") String id, @Param("fechaInicial") Date fechaInicial, @Param("fechaFinal") Date fechaFinal);
+    List<MovimientosClienteEntity> listMovedByClient(@Param("id") Integer id, @Param("fechaInicial") Date fechaInicial, @Param("fechaFinal") Date fechaFinal);
 }

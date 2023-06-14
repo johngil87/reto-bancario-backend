@@ -11,7 +11,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Repository
-public class PersonaAdapter extends AdapterOperations<Cliente, ClienteEntity,String, ClienteJpaRepository> implements ClienteRepository {
+public class PersonaAdapter extends AdapterOperations<Cliente, ClienteEntity,Integer, ClienteJpaRepository> implements ClienteRepository {
 
     public PersonaAdapter(ClienteJpaRepository repository, ObjectMapper mapper) {
         super(repository, mapper, d-> mapper.mapBuilder(d,Cliente.ClienteBuilder.class).build());
@@ -24,7 +24,7 @@ public class PersonaAdapter extends AdapterOperations<Cliente, ClienteEntity,Str
     }
 
     @Override
-    public Mono<Cliente> getCliente(String id) {
+    public Mono<Cliente> getCliente(Integer id) {
         return repository.findById(id).map(item -> Mono.just(ClienteMapper.toData(item))).orElse(Mono.empty());
     }
 
@@ -39,7 +39,7 @@ public class PersonaAdapter extends AdapterOperations<Cliente, ClienteEntity,Str
     }
 
     @Override
-    public Mono<Void> deleteCliente(String id) {
+    public Mono<Void> deleteCliente(Integer id) {
         repository.deleteById(id);
         return Mono.empty();
     }

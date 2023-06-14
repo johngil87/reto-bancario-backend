@@ -52,7 +52,7 @@ public class MovimientoUseCase {
         return movimientosRepository.getListMovimientosByid(ids);
     }
 
-    public Flux<MovimientosCliente> getListMovimientosCliente(String id, Date fechaInicial, Date fechaFinal){
+    public Flux<MovimientosCliente> getListMovimientosCliente(Integer id, Date fechaInicial, Date fechaFinal){
         return  clienteRepository.getCliente(id)
                 .switchIfEmpty(Mono.error(BusinessExceptions.Type.INVALID_ID_CLIENT.build()))
                 .flux()

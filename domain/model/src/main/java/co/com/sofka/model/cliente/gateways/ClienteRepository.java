@@ -7,8 +7,8 @@ import reactor.core.publisher.Mono;
 public interface ClienteRepository {
 
     Mono<Cliente> saveCliente(Cliente cliente);
-    Mono<Cliente> getCliente(String id);
+    Mono<Cliente> getCliente(Integer id);
     Mono<Cliente> updateCliente(Cliente cliente);
     Flux<Cliente> getAll();
-    Mono<Void> deleteCliente(String id);
+    Mono<Void> deleteCliente(Integer id);
 }
