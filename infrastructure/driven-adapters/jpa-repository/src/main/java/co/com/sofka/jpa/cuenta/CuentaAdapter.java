@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.util.List;
 import java.util.function.Function;
 
 @Repository
@@ -21,17 +22,28 @@ public class CuentaAdapter extends AdapterOperations<Cuenta, CuentaEntity,Intege
 
     @Override
     public Mono<Cuenta> saveCuenta(Cuenta cuenta) {
-        repository.save(CuentaMapper.toEntity(cuenta));
-        return Mono.empty();
+        return Mono.just(CuentaMapper.toData(repository.save(CuentaMapper.toEntity(cuenta))));
     }
 
     @Override
     public Mono<Cuenta> getCuenta(Integer id) {
-        return null;
+        return repository.findById(id).map(item -> Mono.just(CuentaMapper.toData(item))).orElse(Mono.empty());
     }
 
     @Override
-    public Flux<Cuenta> getAllCuentas() {
-        return null;
+    public Flux<Cuenta> getAllCuentasById(List<Integer> ids) {
+        return Flux.fromIterable(CuentaMapper.toDataList(repository.findAllById(ids)));
+    }
+
+    @Override
+    public Mono<Void> deleteCuenta(Integer id) {
+        CuentaEntity cuenta =repository.findById(id).get();
+        repository.delete(cuenta);
+        return Mono.empty();
+    }
+
+    @Override
+    public Mono<Cuenta> updateCuenta(Cuenta cuenta) {
+        return Mono.just(CuentaMapper.toData(repository.save(CuentaMapper.toEntity(cuenta))));
     }
 }

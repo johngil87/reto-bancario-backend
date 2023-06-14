@@ -13,7 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder(toBuilder = true)
-@Table(name = "cliente")
+@Table(name = "cuenta")
 public class CuentaEntity {
 
     @Id
@@ -24,6 +24,8 @@ public class CuentaEntity {
     private String tipoCuenta;
     @Column(name = "saldo_inicial")
     private Double saldoInicial;
+    @Column(name = "saldo_disponible")
+    private Double saldoDisponible;
     private boolean estado;
     @ManyToOne
     @JoinColumn(name = "id_cliente")

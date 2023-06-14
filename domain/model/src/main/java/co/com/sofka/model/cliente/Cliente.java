@@ -9,7 +9,6 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 public class Cliente extends Persona {
 
-    private String idCliente;
     private String contrasena;
     private boolean estado;
 }
