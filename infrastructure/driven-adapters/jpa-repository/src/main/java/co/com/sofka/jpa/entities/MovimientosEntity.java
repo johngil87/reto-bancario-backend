@@ -13,7 +13,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder(toBuilder = true)
-@Table(name = "cliente")
+@Table(name = "movimientos")
 public class MovimientosEntity {
 
     @Id
@@ -24,7 +24,6 @@ public class MovimientosEntity {
     private String tipo;
     private Double valor;
     private Double saldo;
-    @ManyToOne
-    @JoinColumn(name = "id_cuenta")
-    private CuentaEntity idCuenta;
+    @Column(name = "id_cuenta")
+    private Integer idCuenta;
 }

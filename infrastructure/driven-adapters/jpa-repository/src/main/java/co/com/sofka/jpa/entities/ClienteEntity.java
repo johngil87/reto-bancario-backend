@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @Entity
 @AllArgsConstructor
@@ -15,11 +17,14 @@ import lombok.NoArgsConstructor;
 public class ClienteEntity {
 
     @Id
-    @Column(name = "id_cliente")
-    private String idCliente;
+    private String identificacion;
+    private String direccion;
+    private String nombre;
+    private String genero;
+    private Integer edad;
+    private String telefono;
     private String contrasena;
     private boolean estado;
-    @OneToOne
-    @JoinColumn(name = "id_persona")
-    private PersonaEntity idPersona;
+    @OneToMany(mappedBy = "idCliente", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<CuentaEntity> cuentas;
 }
