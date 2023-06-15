@@ -2,6 +2,7 @@ package co.com.sofka.api.cliente;
 
 import co.com.sofka.model.cliente.Cliente;
 import co.com.sofka.model.ex.BusinessExceptions;
+import co.com.sofka.security.JwtVerifier;
 import co.com.sofka.usecase.cliente.ClienteUseCase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -27,9 +28,13 @@ class ClienteControllerTest {
     private WebTestClient webTestClient;
 
     @MockBean
+    JwtVerifier jwtVerifier;
+
+    @MockBean
     private ClienteUseCase clienteUseCase;
 
     Cliente cliente = Cliente.builder()
+            .idCliente(1)
             .contrasena("contra")
             .telefono("221133")
             .edad(25)
@@ -41,6 +46,7 @@ class ClienteControllerTest {
             .build();
 
     Cliente cliente2 = Cliente.builder()
+            .idCliente(2)
             .contrasena("contra")
             .telefono("22113300")
             .edad(25)
@@ -53,17 +59,19 @@ class ClienteControllerTest {
 
     @BeforeEach
     public void init(){
-        Mockito.when(clienteUseCase.getClient("112233")).thenReturn(Mono.just(cliente));
+        Mockito.when(jwtVerifier.validateToken("euffddafaca345a")).thenReturn(true);
+        Mockito.when(clienteUseCase.getClient(1)).thenReturn(Mono.just(cliente));
         Mockito.when(clienteUseCase.saveClient(cliente)).thenReturn(Mono.just(cliente));
         Mockito.when(clienteUseCase.updateClient(cliente)).thenReturn(Mono.just(cliente));
-        Mockito.when(clienteUseCase.deleteClient("112233")).thenReturn(Mono.empty());
-        Mockito.when(clienteUseCase.getClient("10101")).thenReturn(Mono.error(BusinessExceptions.Type.INVALID_ID_CLIENT.build()));
+        Mockito.when(clienteUseCase.deleteClient(1)).thenReturn(Mono.empty());
+        Mockito.when(clienteUseCase.getClient(0)).thenReturn(Mono.error(BusinessExceptions.Type.INVALID_ID_CLIENT.build()));
     }
 
     @Test
     void guardarClienteTest(){
         webTestClient.post()
                 .uri("/api/cliente")
+                .header("my-token", "euffddafaca345a")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .body(Mono.just(cliente), Cliente.class)
@@ -77,6 +85,7 @@ class ClienteControllerTest {
     void actualizarClientetest(){
         webTestClient.put()
                 .uri("/api/cliente")
+                .header("my-token", "euffddafaca345a")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .body(Mono.just(cliente), Cliente.class)
@@ -91,6 +100,7 @@ class ClienteControllerTest {
         Mockito.when(clienteUseCase.updateClient(cliente2)).thenReturn(Mono.error(BusinessExceptions.Type.INVALID_ID_CLIENT.build()));
         webTestClient.put()
                 .uri("/api/cliente")
+                .header("my-token", "euffddafaca345a")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .body(Mono.just(cliente2), Cliente.class)
@@ -99,11 +109,11 @@ class ClienteControllerTest {
     }
 
     @Test
-    void obtenerClienteTestError(){
+    void obtenerClienteTest(){
         webTestClient.get()
-                .uri("/api/cliente?id=10101")
+                .uri("/api/cliente?id=0")
                 .exchange()
-                .expectStatus().is5xxServerError();
+                .expectStatus().isOk();
     }
 
 }

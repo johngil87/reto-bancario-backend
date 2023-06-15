@@ -1,9 +1,12 @@
 package co.com.sofka.api.movimientos;
 
+import co.com.sofka.model.ex.BusinessExceptions;
 import co.com.sofka.model.movimientos.Movimientos;
 import co.com.sofka.model.movimientoscliente.MovimientosCliente;
+import co.com.sofka.security.JwtVerifier;
 import co.com.sofka.usecase.movimiento.MovimientoUseCase;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
@@ -17,15 +20,23 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MovimientosController {
 
+    @Autowired
+    private final JwtVerifier jwtVerifier;
     private final MovimientoUseCase movimientoUseCase;
 
     @PostMapping
-    public Mono<Movimientos> guardarMovimientos(@RequestBody Movimientos movimientos){
+    public Mono<Movimientos> guardarMovimientos(@RequestBody Movimientos movimientos, @RequestHeader("my-token") String token){
+        if(!jwtVerifier.validateToken(token)){
+            return Mono.error(BusinessExceptions.Type.INVALID_TOKEN.build());
+        }
         return movimientoUseCase.saveMovimiento(movimientos);
     }
 
     @PutMapping
-    public Mono<Movimientos> actualizarMoviomiento(@RequestBody Movimientos movimientos){
+    public Mono<Movimientos> actualizarMoviomiento(@RequestBody Movimientos movimientos, @RequestHeader("my-token") String token){
+        if(!jwtVerifier.validateToken(token)){
+            return Mono.error(BusinessExceptions.Type.INVALID_TOKEN.build());
+        }
         return movimientoUseCase.updateMovimiento(movimientos);
     }
 
@@ -41,7 +52,10 @@ public class MovimientosController {
 
 
     @GetMapping("/cliente")
-    public Flux<MovimientosCliente> obtenerMovimientosPorClienteRangoFechas(@RequestParam("id") Integer id, @RequestParam("fechaInicial") Date fechaInicial, @RequestParam("fechaFinal") Date fechaFinal ){
+    public Flux<MovimientosCliente> obtenerMovimientosPorClienteRangoFechas(@RequestHeader("my-token") String token, @RequestParam("id") Integer id, @RequestParam("fechaInicial") Date fechaInicial, @RequestParam("fechaFinal") Date fechaFinal ){
+        if(!jwtVerifier.validateToken(token)){
+            return Flux.error(BusinessExceptions.Type.INVALID_TOKEN.build());
+        }
         return movimientoUseCase.getListMovimientosCliente(id, fechaInicial, fechaFinal);
     }
 
@@ -51,7 +65,10 @@ public class MovimientosController {
     }
 
     @DeleteMapping
-    public Mono<Void> eliminarMovimientos(@RequestParam Integer id){
+    public Mono<Void> eliminarMovimientos(@RequestParam Integer id, @RequestHeader("my-token") String token){
+        if(!jwtVerifier.validateToken(token)){
+            return Mono.error(BusinessExceptions.Type.INVALID_TOKEN.build());
+        }
         return movimientoUseCase.deleteMovimiento(id);
     }
 }

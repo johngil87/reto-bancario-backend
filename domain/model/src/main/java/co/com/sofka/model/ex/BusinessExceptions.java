@@ -7,6 +7,7 @@ public class BusinessExceptions extends AppException{
     public enum Type {
 
         INVALID_ID_ACOUNT("No existe cuenta con ese id"),
+        INVALID_TOKEN("Token no valido"),
         INVALID_ID_CLIENT("No existe cliente con ese id"),
         INVALID_ID_MOVE("No existe movimiento con ese id"),
         INVALID_ID_BALANCE_CERO("saldo igual a cero"),
