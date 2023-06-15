@@ -5,6 +5,7 @@ import co.com.sofka.model.cuenta.Cuenta;
 import co.com.sofka.model.ex.BusinessExceptions;
 import co.com.sofka.model.movimientos.Movimientos;
 import co.com.sofka.model.movimientoscliente.MovimientosCliente;
+import co.com.sofka.security.JwtVerifier;
 import co.com.sofka.usecase.cliente.ClienteUseCase;
 import co.com.sofka.usecase.cuenta.CuentaUseCase;
 import co.com.sofka.usecase.movimiento.MovimientoUseCase;
@@ -33,6 +34,9 @@ class MovimientosControllerTest {
 
     @Autowired
     WebTestClient testClient;
+
+    @MockBean
+    JwtVerifier jwtVerifier;
 
     @MockBean
     MovimientoUseCase movimientoUseCase;
@@ -133,6 +137,7 @@ class MovimientosControllerTest {
 
     @BeforeEach
     void init(){
+        Mockito.when(jwtVerifier.validateToken("euffddafaca345a")).thenReturn(true);
         Mockito.when(cuentaUseCase.getCuenta(1)).thenReturn(Mono.just(cuenta));
         Mockito.when(cuentaUseCase.updateCuenta(cuenta)).thenReturn(Mono.just(cuenta));
         Mockito.when(movimientoUseCase.saveMovimiento(movimiento1)).thenReturn(Mono.just(movimientos1));
@@ -150,6 +155,7 @@ class MovimientosControllerTest {
     void guardarMovimientoTest(){
         testClient.post()
                 .uri("/api/movimientos")
+                .header("my-token", "euffddafaca345a")
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(Mono.just(movimiento1), Movimientos.class)
                 .exchange()
@@ -160,6 +166,7 @@ class MovimientosControllerTest {
     void guardarMovimientoErrorTest(){
         testClient.post()
                 .uri("/api/movimientos")
+                .header("my-token", "euffddafaca345a")
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(Mono.just(movimiento2), Movimientos.class)
                 .exchange()
@@ -170,6 +177,7 @@ class MovimientosControllerTest {
     void guardarMovimientoErrorTest2(){
         testClient.post()
                 .uri("/api/movimientos")
+                .header("my-token", "euffddafaca345a")
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(Mono.just(movimiento3), Movimientos.class)
                 .exchange()
@@ -180,6 +188,7 @@ class MovimientosControllerTest {
     void uptadeMovimientoTest(){
         testClient.put()
                 .uri("/api/movimientos")
+                .header("my-token", "euffddafaca345a")
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(Mono.just(movimientos1), Movimientos.class)
                 .exchange()
@@ -190,6 +199,7 @@ class MovimientosControllerTest {
     void uptadeMovimientoErrorTest(){
         testClient.put()
                 .uri("/api/movimientos")
+                .header("my-token", "euffddafaca345a")
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(Mono.just(movimientos2), Movimientos.class)
                 .exchange()
@@ -200,6 +210,7 @@ class MovimientosControllerTest {
     void eliminarMovimientoErrorTest(){
         testClient.delete()
                 .uri("/api/movimientos?id=0")
+                .header("my-token", "euffddafaca345a")
                 .exchange().expectStatus().is5xxServerError();
     }
 }

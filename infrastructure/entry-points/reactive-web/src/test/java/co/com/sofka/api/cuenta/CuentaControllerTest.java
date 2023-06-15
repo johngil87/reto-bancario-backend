@@ -4,6 +4,7 @@ import co.com.sofka.api.cliente.ClienteController;
 import co.com.sofka.model.cliente.Cliente;
 import co.com.sofka.model.cuenta.Cuenta;
 import co.com.sofka.model.ex.BusinessExceptions;
+import co.com.sofka.security.JwtVerifier;
 import co.com.sofka.usecase.cliente.ClienteUseCase;
 import co.com.sofka.usecase.cuenta.CuentaUseCase;
 import org.junit.jupiter.api.BeforeEach;
@@ -30,12 +31,16 @@ class CuentaControllerTest {
     WebTestClient testClient;
 
     @MockBean
+    JwtVerifier jwtVerifier;
+
+    @MockBean
     CuentaUseCase cuentaUseCase;
 
     @MockBean
     ClienteUseCase clienteUseCase;
 
     Cliente cliente = Cliente.builder()
+            .idCliente(1)
             .contrasena("contra")
             .telefono("221133")
             .edad(25)
@@ -77,9 +82,10 @@ class CuentaControllerTest {
 
     @BeforeEach
     void init(){
-        Mockito.when(clienteUseCase.getClient("221133")).thenReturn(Mono.just(cliente));
+        Mockito.when(jwtVerifier.validateToken("euffddafaca345a")).thenReturn(true);
+        Mockito.when(clienteUseCase.getClient(1)).thenReturn(Mono.just(cliente));
         Mockito.when(cuentaUseCase.saveCuenta(cuenta)).thenReturn(Mono.just(cuenta));
-        Mockito.when(clienteUseCase.getClient("000")).thenReturn(Mono.error(BusinessExceptions.Type.INVALID_ID_CLIENT.build()));
+        Mockito.when(clienteUseCase.getClient(0)).thenReturn(Mono.error(BusinessExceptions.Type.INVALID_ID_CLIENT.build()));
         Mockito.when(cuentaUseCase.saveCuenta(cuenta1)).thenReturn(Mono.error(BusinessExceptions.Type.INVALID_ID_CLIENT.build()));
         Mockito.when(cuentaUseCase.getCuenta(1)).thenReturn(Mono.just(cuenta));
         Mockito.when(cuentaUseCase.updateCuenta(cuenta1)).thenReturn(Mono.error(BusinessExceptions.Type.INVALID_ID_CLIENT.build()));
@@ -91,6 +97,7 @@ class CuentaControllerTest {
     void guardarCuenteTest(){
         testClient.post()
                 .uri("/api/cuenta")
+                .header("my-token", "euffddafaca345a")
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(Mono.just(cuenta),Cuenta.class)
                 .exchange()
@@ -104,6 +111,7 @@ class CuentaControllerTest {
     void guardarCuentaErrorTest(){
         testClient.post()
                 .uri("/api/cuenta")
+                .header("my-token", "euffddafaca345a")
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(Mono.just(cuenta1),Cuenta.class)
                 .exchange()
@@ -122,6 +130,7 @@ class CuentaControllerTest {
     void actualizarCuentaErrorTest(){
         testClient.put()
                 .uri("/api/cuenta")
+                .header("my-token", "euffddafaca345a")
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(Mono.just(cuenta1),Cuenta.class)
                 .exchange()
@@ -132,6 +141,7 @@ class CuentaControllerTest {
     void actualizarCuentaTest(){
         testClient.put()
                 .uri("/api/cuenta")
+                .header("my-token", "euffddafaca345a")
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(Mono.just(cuenta),Cuenta.class)
                 .exchange()
