@@ -52,10 +52,7 @@ public class MovimientosController {
 
 
     @GetMapping("/cliente")
-    public Flux<MovimientosCliente> obtenerMovimientosPorClienteRangoFechas(@RequestHeader("my-token") String token, @RequestParam("id") Integer id, @RequestParam("fechaInicial") Date fechaInicial, @RequestParam("fechaFinal") Date fechaFinal ){
-        if(!jwtVerifier.validateToken(token)){
-            return Flux.error(BusinessExceptions.Type.INVALID_TOKEN.build());
-        }
+    public Flux<MovimientosCliente> obtenerMovimientosPorClienteRangoFechas( @RequestParam("id") Integer id, @RequestParam("fechaInicial") Date fechaInicial, @RequestParam("fechaFinal") Date fechaFinal ){
         return movimientoUseCase.getListMovimientosCliente(id, fechaInicial, fechaFinal);
     }
 

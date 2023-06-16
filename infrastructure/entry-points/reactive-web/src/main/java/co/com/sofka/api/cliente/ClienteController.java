@@ -22,11 +22,8 @@ public class ClienteController {
     private final ClienteUseCase clienteUseCase;
 
     @GetMapping("/id")
-    public Mono<Cliente> obtenerCliente(@RequestParam Integer id, @RequestHeader("my-token") String token){
-        if(jwtVerifier.validateToken(token)){
+    public Mono<Cliente> obtenerCliente(@RequestParam Integer id){
             return clienteUseCase.getClient(id);
-        }
-        return Mono.error(BusinessExceptions.Type.INVALID_TOKEN.build());
     }
 
     @GetMapping
