@@ -22,7 +22,7 @@ public class CuentaAdapter extends AdapterOperations<Cuenta, CuentaEntity,Intege
 
     @Override
     public Mono<Cuenta> saveCuenta(Cuenta cuenta) {
-        return Mono.just(CuentaMapper.toData(repository.save(CuentaMapper.toEntity(cuenta))));
+        return Mono.just(CuentaMapper.toDataMov(repository.save(CuentaMapper.toEntity(cuenta))));
     }
 
     @Override
@@ -44,7 +44,7 @@ public class CuentaAdapter extends AdapterOperations<Cuenta, CuentaEntity,Intege
 
     @Override
     public Mono<Cuenta> updateCuenta(Cuenta cuenta) {
-        return Mono.just(CuentaMapper.toData(repository.save(CuentaMapper.toEntity(cuenta))));
+        return Mono.just(CuentaMapper.toDataMov(repository.save(CuentaMapper.toEntity(cuenta))));
     }
 
     @Override

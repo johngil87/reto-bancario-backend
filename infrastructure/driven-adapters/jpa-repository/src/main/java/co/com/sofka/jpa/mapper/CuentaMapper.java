@@ -45,6 +45,17 @@ public class CuentaMapper {
                 .build();
     }
 
+    public static Cuenta toDataMov(CuentaEntity entity){
+        return  Cuenta.builder()
+                .estado(entity.isEstado())
+                .tipoCuenta(entity.getTipoCuenta())
+                .saldoInicial(entity.getSaldoInicial())
+                .numeroCuenta(entity.getNumeroCuenta())
+                .saldoDisponible(entity.getSaldoDisponible())
+                .cliente(ClienteMapper.toData(entity.getIdCliente()))
+                .build();
+    }
+
     public static List<Cuenta> toDataList(Iterable<CuentaEntity> entityList){
         List<Cuenta> cuentaList= new ArrayList<>();
         entityList.forEach(item -> cuentaList.add(toData(item)));
