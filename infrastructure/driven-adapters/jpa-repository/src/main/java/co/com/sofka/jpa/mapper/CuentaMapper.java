@@ -41,6 +41,7 @@ public class CuentaMapper {
                 .numeroCuenta(entity.getNumeroCuenta())
                 .saldoDisponible(entity.getSaldoDisponible())
                 .cliente(ClienteMapper.toData(entity.getIdCliente()))
+                .movimientos(MovimientoMapper.toListData(entity.getMovimientos()))
                 .build();
     }
 

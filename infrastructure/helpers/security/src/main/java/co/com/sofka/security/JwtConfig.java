@@ -13,7 +13,7 @@ public class JwtConfig {
     private String secret =  "john122df2e43d9f543e162f92f647cb462cfd2c2d5da61d2290a6745e791d7b4b04542df2e43d9f543e162f92f647cb462cfd2c2d5da61d2";
 
     //@Value("${jwt.expiration}")
-    private Long expiration=60000L;
+    private Long expiration=300000L;
 
     @Bean
     public JwtParser jwtParser() {

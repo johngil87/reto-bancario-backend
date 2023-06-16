@@ -1,5 +1,6 @@
 package co.com.sofka.api.Jwt;
 
+import co.com.sofka.api.dtos.TokenDto;
 import co.com.sofka.security.JwtGenerator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,11 @@ public class JwtController {
     private final JwtGenerator jwtGenerator;
 
     @GetMapping
-    public Mono<String> getToken(String user){
-        return Mono.just(jwtGenerator.generateToken(user));
+    public Mono<TokenDto> getToken(String user){
+        TokenDto newToken = TokenDto.builder()
+                .token(jwtGenerator.generateToken(user))
+                .message("se genera token exitosamente")
+                .build();
+        return Mono.just(newToken);
     }
 }
