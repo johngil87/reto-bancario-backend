@@ -25,8 +25,6 @@ import reactor.core.publisher.Mono;
 
 import java.util.Date;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes= MovimientosController.class)
 @WebFluxTest(controllers = MovimientosController.class)
@@ -110,7 +108,7 @@ class MovimientosControllerTest {
     Movimientos movimientos1 = Movimientos.builder()
             .tipo("debito")
             .saldo(10000.0)
-            .idCLiente("221133")
+            .identificacion("221133")
             .idMovimiento(1)
             .valor(1000.0)
             .fecha(new Date())
@@ -120,7 +118,7 @@ class MovimientosControllerTest {
     Movimientos movimientos2 = Movimientos.builder()
             .tipo("debito")
             .saldo(10000.0)
-            .idCLiente("221133")
+            .identificacion("221133")
             .idMovimiento(1)
             .valor(1000.0)
             .fecha(new Date())
