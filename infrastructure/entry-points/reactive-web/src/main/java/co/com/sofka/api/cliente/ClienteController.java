@@ -26,6 +26,11 @@ public class ClienteController {
             return clienteUseCase.getClient(id);
     }
 
+    @GetMapping("/identificacion")
+    public Mono<Cliente> obtenerClienteIdentificacion(@RequestParam String id){
+        return clienteUseCase.getClient(id);
+    }
+
     @GetMapping
     public Flux<Cliente> obtenerClientes(){
         return clienteUseCase.getAll();

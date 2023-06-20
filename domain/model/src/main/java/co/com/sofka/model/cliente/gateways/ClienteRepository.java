@@ -11,4 +11,5 @@ public interface ClienteRepository {
     Mono<Cliente> updateCliente(Cliente cliente);
     Flux<Cliente> getAll();
     Mono<Void> deleteCliente(Integer id);
+    Mono<Cliente> getCliente(String id);
 }

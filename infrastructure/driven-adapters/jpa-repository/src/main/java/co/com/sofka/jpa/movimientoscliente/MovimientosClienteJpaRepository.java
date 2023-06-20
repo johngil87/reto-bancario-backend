@@ -17,9 +17,9 @@ public interface MovimientosClienteJpaRepository extends CrudRepository<Movimien
                     "FROM MOVIMIENTOS MO " +
                     "INNER JOIN CUENTA CU ON MO.ID_CUENTA = CU.NUMERO_CUENTA " +
                     "INNER JOIN CLIENTE CLI ON CLI.ID_CLIENTE = CU.ID_CLIENTE " +
-                    "WHERE CLI.ID_CLIENTE = :id " +
+                    "WHERE CLI.IDENTIFICACION = :id " +
                     "AND MO.FECHA BETWEEN :fechaInicial AND :fechaFinal ",
             nativeQuery = true
     )
-    List<MovimientosClienteEntity> listMovedByClient(@Param("id") Integer id, @Param("fechaInicial") Date fechaInicial, @Param("fechaFinal") Date fechaFinal);
+    List<MovimientosClienteEntity> listMovedByClient(@Param("id") String id, @Param("fechaInicial") Date fechaInicial, @Param("fechaFinal") Date fechaFinal);
 }

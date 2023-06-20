@@ -146,7 +146,7 @@ class MovimientosControllerTest {
         Mockito.when(movimientoUseCase.saveMovimiento(movimiento3)).thenReturn(Mono.error(BusinessExceptions.Type.INVALID_ID_BALANCE.build()));
         Mockito.when(movimientoUseCase.deleteMovimiento(1)).thenReturn(Mono.empty());
         Mockito.when(clienteUseCase.getClient(1)).thenReturn(Mono.just(cliente));
-        Mockito.when(movimientoUseCase.getListMovimientosCliente(1,new Date("2020/06/10"), new Date())).thenReturn(Flux.just(movimientosCliente));
+        Mockito.when(movimientoUseCase.getListMovimientosCliente("1",new Date("2020/06/10"), new Date())).thenReturn(Flux.just(movimientosCliente));
     }
 
     @Test

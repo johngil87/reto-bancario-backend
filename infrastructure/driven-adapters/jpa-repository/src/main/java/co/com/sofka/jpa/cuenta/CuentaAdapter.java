@@ -37,8 +37,7 @@ public class CuentaAdapter extends AdapterOperations<Cuenta, CuentaEntity,Intege
 
     @Override
     public Mono<Void> deleteCuenta(Integer id) {
-        CuentaEntity cuenta =repository.findById(id).get();
-        repository.delete(cuenta);
+        repository.deleteById(id);
         return Mono.empty();
     }
 

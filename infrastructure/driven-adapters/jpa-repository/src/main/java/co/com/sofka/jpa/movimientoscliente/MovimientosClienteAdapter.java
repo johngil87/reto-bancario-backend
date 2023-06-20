@@ -21,7 +21,7 @@ public class MovimientosClienteAdapter  extends AdapterOperations<MovimientosCli
     }
 
     @Override
-    public Flux<MovimientosCliente> obtenerMovimientosClienteFecha(Integer id, Date fechaInicial, Date fechaFinal) {
+    public Flux<MovimientosCliente> obtenerMovimientosClienteFecha(String id, Date fechaInicial, Date fechaFinal) {
         return Flux.fromIterable(MovimientoMapper.tolistData(repository.listMovedByClient(id,fechaInicial,fechaFinal)));
     }
 }

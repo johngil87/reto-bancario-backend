@@ -20,7 +20,7 @@ public class CuentaUseCase {
     private final CuentasClienteRepository cuentasClienteRepository;
 
     public Mono<Cuenta> saveCuenta(Cuenta cuenta){
-        return clienteRepository.getCliente(cuenta.getCliente().getIdCliente())
+        return clienteRepository.getCliente(cuenta.getCliente().getIdentificacion())
                 .switchIfEmpty(Mono.error(BusinessExceptions.Type.INVALID_ID_CLIENT.build()))
                 .flatMap(item -> {
                     cuenta.setCliente(item);

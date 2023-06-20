@@ -13,10 +13,17 @@ public class ClienteUseCase {
     private final ClienteRepository clienteRepository;
 
     public Mono<Cliente> saveClient(Cliente cliente){
-        return clienteRepository.saveCliente(cliente);
+        return clienteRepository.getCliente(cliente.getIdentificacion())
+                .flatMap(this::validateClient)
+                .switchIfEmpty(Mono.defer(()-> clienteRepository.saveCliente(cliente)));
     }
 
     public Mono<Cliente> getClient(Integer id){
+        return clienteRepository.getCliente(id)
+                .switchIfEmpty(Mono.error(BusinessExceptions.Type.INVALID_ID_CLIENT.build()));
+    }
+
+    public Mono<Cliente> getClient(String id){
         return clienteRepository.getCliente(id)
                 .switchIfEmpty(Mono.error(BusinessExceptions.Type.INVALID_ID_CLIENT.build()));
     }
@@ -35,5 +42,12 @@ public class ClienteUseCase {
 
     public Flux<Cliente> getAll(){
         return clienteRepository.getAll();
+    }
+
+    private Mono<Cliente> validateClient(Cliente cliente1){
+        if (null == cliente1.getIdCliente()) {
+            return Mono.empty();
+        }
+        return Mono.error(BusinessExceptions.Type.INVALID_ID_CLIENT_EXIST.build());
     }
 }
