@@ -6,4 +6,5 @@ import org.springframework.data.repository.query.QueryByExampleExecutor;
 
 public interface ClienteJpaRepository extends CrudRepository<ClienteEntity, Integer> , QueryByExampleExecutor<ClienteEntity> {
 
+    Iterable<ClienteEntity> getByIdentificacion(String identificacion);
 }

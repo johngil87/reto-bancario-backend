@@ -3,6 +3,7 @@ package co.com.sofka.usecase.movimiento;
 import co.com.sofka.model.cliente.gateways.ClienteRepository;
 import co.com.sofka.model.cuenta.Cuenta;
 import co.com.sofka.model.cuenta.gateways.CuentaRepository;
+import co.com.sofka.model.cuenta.gateways.CuentasClienteRepository;
 import co.com.sofka.model.ex.BusinessExceptions;
 import co.com.sofka.model.movimientos.Movimientos;
 import co.com.sofka.model.movimientoscliente.MovimientosCliente;
@@ -20,13 +21,14 @@ public class MovimientoUseCase {
 
     private final MovimientosRepository movimientosRepository;
     private final CuentaRepository cuentaRepository;
+    private final CuentasClienteRepository cuentasClienteRepository;
     private final ClienteRepository clienteRepository;
     private final MovimientosClienteRepository movimientosClienteRepository;
     private final String TYPEBEBIT = "debito";
 
     public Mono<Movimientos> saveMovimiento(Movimientos movimientos){
-        return cuentaRepository.getCuenta(movimientos.getIdCuenta())
-                .switchIfEmpty(Mono.error(BusinessExceptions.Type.INVALID_ID_ACOUNT.build()))
+        return cuentasClienteRepository.getCuentaCLiente(movimientos.getIdentificacion(), movimientos.getContrasena(), movimientos.getIdCuenta())
+                .switchIfEmpty(Mono.error(BusinessExceptions.Type.INVALID_ID_CLIENT_PASSWORD.build()))
                 .flatMap(cuenta1 -> validarSaldoDebito(cuenta1, movimientos))
                 .flatMap(cuenta2-> calcularSaldo(cuenta2, movimientos))
                 .flatMap(movimientosRepository::saveMovimiento);
@@ -52,7 +54,7 @@ public class MovimientoUseCase {
         return movimientosRepository.getListMovimientosByid(ids);
     }
 
-    public Flux<MovimientosCliente> getListMovimientosCliente(Integer id, Date fechaInicial, Date fechaFinal){
+    public Flux<MovimientosCliente> getListMovimientosCliente(String id, Date fechaInicial, Date fechaFinal){
         return  clienteRepository.getCliente(id)
                 .switchIfEmpty(Mono.error(BusinessExceptions.Type.INVALID_ID_CLIENT.build()))
                 .flux()

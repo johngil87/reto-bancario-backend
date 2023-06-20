@@ -20,6 +20,7 @@ public class Movimientos {
     private String tipo;
     private Double valor;
     private Double saldo;
-    private String idCLiente;
+    private String identificacion;
     private Integer idCuenta;
+    private String contrasena;
 }

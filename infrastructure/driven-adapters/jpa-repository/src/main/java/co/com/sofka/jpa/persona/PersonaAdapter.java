@@ -43,4 +43,10 @@ public class PersonaAdapter extends AdapterOperations<Cliente, ClienteEntity,Int
         repository.deleteById(id);
         return Mono.empty();
     }
+
+    @Override
+    public Mono<Cliente> getCliente(String id) {
+        return Flux.fromIterable(ClienteMapper.toDataList(repository.getByIdentificacion(id)))
+                .next();
+    }
 }

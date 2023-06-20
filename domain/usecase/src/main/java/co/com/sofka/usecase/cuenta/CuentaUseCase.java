@@ -3,6 +3,7 @@ package co.com.sofka.usecase.cuenta;
 import co.com.sofka.model.cliente.gateways.ClienteRepository;
 import co.com.sofka.model.cuenta.Cuenta;
 import co.com.sofka.model.cuenta.gateways.CuentaRepository;
+import co.com.sofka.model.cuenta.gateways.CuentasClienteRepository;
 import co.com.sofka.model.ex.BusinessExceptions;
 import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Flux;
@@ -16,9 +17,10 @@ public class CuentaUseCase {
 
     private final CuentaRepository cuentaRepository;
     private final ClienteRepository clienteRepository;
+    private final CuentasClienteRepository cuentasClienteRepository;
 
     public Mono<Cuenta> saveCuenta(Cuenta cuenta){
-        return clienteRepository.getCliente(cuenta.getCliente().getIdCliente())
+        return clienteRepository.getCliente(cuenta.getCliente().getIdentificacion())
                 .switchIfEmpty(Mono.error(BusinessExceptions.Type.INVALID_ID_CLIENT.build()))
                 .flatMap(item -> {
                     cuenta.setCliente(item);
@@ -37,6 +39,10 @@ public class CuentaUseCase {
 
     public Flux<Cuenta> getAllCuentas(List<Integer> ids){
         return cuentaRepository.getAllCuentasById(ids);
+    }
+
+    public Flux<Cuenta> getCuentasCliente(String id){
+        return cuentasClienteRepository.getAllCuentasCliente(id);
     }
 
     public Mono<Void> deleteCuenta(Integer id){

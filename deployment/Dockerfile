@@ -1,7 +1,15 @@
 FROM amazoncorretto:17-alpine
-VOLUME /tmp
-COPY *.jar RetoPichincha.jar
-ENV JAVA_OPTS=" -Xshareclasses:name=cacheapp,cacheDir=/cache,nonfatal -XX:+UseContainerSupport -XX:MaxRAMPercentage=70 -Djava.security.egd=file:/dev/./urandom"
-# Replace with a non-root user to avoid running the container with excessive privileges
-USER appuser
-ENTRYPOINT [ "sh", "-c", "java $JAVA_OPTS  -jar RetoPichincha.jar" ]
+
+# Time Zone America/Bogota
+ENV TZ="America/Bogota"
+
+EXPOSE 8080
+
+WORKDIR /opt/app
+
+COPY build/libs/RetoPichincha.jar /opt/app/aplicaciones/RetoPichincha.jar
+
+USER nobody
+
+ENTRYPOINT ["java", "-jar", "/opt/app/aplicaciones/RetoPichincha.jar"]
+

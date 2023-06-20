@@ -45,6 +45,11 @@ public class CuentaController {
         return cuentaUseCase.getAllCuentas(ids);
     }
 
+    @GetMapping("/identificacion")
+    public Flux<Cuenta> obtenerCuentasCliente(@RequestParam String id){
+        return cuentaUseCase.getCuentasCliente(id);
+    }
+
     @DeleteMapping("/id")
     public Mono<Void> eliminarCuenta(@RequestParam Integer id, @RequestHeader("my-token") String token){
         if(!jwtVerifier.validateToken(token)){

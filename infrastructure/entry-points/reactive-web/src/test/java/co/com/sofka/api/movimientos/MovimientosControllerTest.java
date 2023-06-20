@@ -25,8 +25,6 @@ import reactor.core.publisher.Mono;
 
 import java.util.Date;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes= MovimientosController.class)
 @WebFluxTest(controllers = MovimientosController.class)
@@ -110,7 +108,7 @@ class MovimientosControllerTest {
     Movimientos movimientos1 = Movimientos.builder()
             .tipo("debito")
             .saldo(10000.0)
-            .idCLiente("221133")
+            .identificacion("221133")
             .idMovimiento(1)
             .valor(1000.0)
             .fecha(new Date())
@@ -120,7 +118,7 @@ class MovimientosControllerTest {
     Movimientos movimientos2 = Movimientos.builder()
             .tipo("debito")
             .saldo(10000.0)
-            .idCLiente("221133")
+            .identificacion("221133")
             .idMovimiento(1)
             .valor(1000.0)
             .fecha(new Date())
@@ -148,7 +146,7 @@ class MovimientosControllerTest {
         Mockito.when(movimientoUseCase.saveMovimiento(movimiento3)).thenReturn(Mono.error(BusinessExceptions.Type.INVALID_ID_BALANCE.build()));
         Mockito.when(movimientoUseCase.deleteMovimiento(1)).thenReturn(Mono.empty());
         Mockito.when(clienteUseCase.getClient(1)).thenReturn(Mono.just(cliente));
-        Mockito.when(movimientoUseCase.getListMovimientosCliente(1,new Date("2020/06/10"), new Date())).thenReturn(Flux.just(movimientosCliente));
+        Mockito.when(movimientoUseCase.getListMovimientosCliente("1",new Date("2020/06/10"), new Date())).thenReturn(Flux.just(movimientosCliente));
     }
 
     @Test
