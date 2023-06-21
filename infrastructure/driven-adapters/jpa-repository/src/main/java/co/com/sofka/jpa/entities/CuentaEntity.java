@@ -1,6 +1,7 @@
 package co.com.sofka.jpa.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -21,6 +22,7 @@ public class CuentaEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer numeroCuenta;
     @Column(name = "tipo_cuenta")
+    @NotBlank
     private String tipoCuenta;
     @Column(name = "saldo_inicial")
     private Double saldoInicial;

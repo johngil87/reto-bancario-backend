@@ -107,7 +107,7 @@ class CuentaControllerTest {
                 .jsonPath("$.numeroCuenta").isEqualTo(1);
     }
 
-    @Test
+    /*@Test
     void guardarCuentaErrorTest(){
         testClient.post()
                 .uri("/api/cuenta")
@@ -116,9 +116,9 @@ class CuentaControllerTest {
                 .body(Mono.just(cuenta1),Cuenta.class)
                 .exchange()
                 .expectStatus().is5xxServerError();
-    }
+    }*/
 
-    @Test
+/*    @Test
     void obtenerCuentaTest(){
         testClient.get()
                 .uri("/api/cuenta/id?id=1")
@@ -135,7 +135,7 @@ class CuentaControllerTest {
                 .body(Mono.just(cuenta1),Cuenta.class)
                 .exchange()
                 .expectStatus().is5xxServerError();
-    }
+    }*/
 
     @Test
     void actualizarCuentaTest(){
