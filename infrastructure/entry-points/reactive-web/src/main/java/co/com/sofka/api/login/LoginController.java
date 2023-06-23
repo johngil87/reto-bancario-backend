@@ -1,4 +1,4 @@
-package co.com.sofka.api.Jwt;
+package co.com.sofka.api.login;
 
 import co.com.sofka.api.dtos.TokenDto;
 import co.com.sofka.security.JwtGenerator;
@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
 
 @RestController
-@RequestMapping(value = "/api/jwt", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/api/login", produces = MediaType.APPLICATION_JSON_VALUE)
 @RequiredArgsConstructor
-public class JwtController {
+public class LoginController {
 
     @Autowired
     private final JwtGenerator jwtGenerator;

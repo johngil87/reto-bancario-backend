@@ -14,7 +14,7 @@ spring:
   main:
     allow-bean-definition-overriding: true
   datasource:
-    url: "jdbc:postgresql://localhost:5432/reto-bancario2"
+    url: "jdbc:postgresql://localhost:5432/reto-bancario3"
     username: "postgres"
     password: "postgres"
     driverClassName: "org.postgresql.Driver"

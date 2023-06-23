@@ -7,11 +7,12 @@ public class BusinessExceptions extends AppException{
     public enum Type {
 
         INVALID_ID_ACOUNT("No existe cuenta con ese id"),
+        INVALID_ID_ACOUNT_EXIST("Ya existe cuenta con ese id"),
         INVALID_TOKEN("Lo sentimos la sesion ha expirado"),
         INVALID_ID_CLIENT("No existe cliente con ese id"),
         INVALID_ID_CLIENT_EXIST("Ya existe cliente con ese id"),
         INVALID_ID_MOVE("No existe movimiento con ese id"),
-        INVALID_ID_BALANCE_CERO("saldo igual a cero"),
+        INVALID_ID_BALANCE_CERO("saldo no disponible"),
         INVALID_ID_CLIENT_PASSWORD("Contrasena o identificacion incorrectos"),
         INVALID_ID_BALANCE("saldo inferior a valor a retirar");
 

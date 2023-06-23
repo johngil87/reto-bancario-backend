@@ -19,7 +19,6 @@ public class CuentaEntity {
 
     @Id
     @Column(name = "numero_cuenta")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer numeroCuenta;
     @Column(name = "tipo_cuenta")
     @NotBlank
