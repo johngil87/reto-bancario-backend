@@ -1,5 +1,6 @@
 package co.com.sofka.usecase.cuenta;
 
+import co.com.sofka.model.cliente.Cliente;
 import co.com.sofka.model.cliente.gateways.ClienteRepository;
 import co.com.sofka.model.cuenta.Cuenta;
 import co.com.sofka.model.cuenta.gateways.CuentaRepository;
@@ -24,8 +25,10 @@ public class CuentaUseCase {
                 .switchIfEmpty(Mono.error(BusinessExceptions.Type.INVALID_ID_CLIENT.build()))
                 .flatMap(item -> {
                     cuenta.setCliente(item);
-                    return cuentaRepository.saveCuenta(cuenta);
-                });
+                    return cuentaRepository.getCuenta(cuenta.getNumeroCuenta());
+                })
+                .flatMap(this::validateAccount)
+                .switchIfEmpty(Mono.defer(()-> cuentaRepository.saveCuenta(cuenta)));
     }
 
     public Mono<Cuenta> getCuenta(Integer id){
@@ -57,5 +60,12 @@ public class CuentaUseCase {
                 .flatMap(item-> getCuenta(cuenta.getNumeroCuenta()))
                 .switchIfEmpty(Mono.error(BusinessExceptions.Type.INVALID_ID_ACOUNT.build()))
                 .flatMap(item-> cuentaRepository.updateCuenta(cuenta));
+    }
+
+    private Mono<Cuenta> validateAccount(Cuenta cuenta){
+        if (null == cuenta.getNumeroCuenta()) {
+            return Mono.empty();
+        }
+        return Mono.error(BusinessExceptions.Type.INVALID_ID_ACOUNT_EXIST.build());
     }
 }
