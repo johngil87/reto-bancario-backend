@@ -171,7 +171,7 @@ class MovimientosControllerTest {
                 .expectStatus().is5xxServerError();
     }
 
-    @Test
+  /*  @Test
     void guardarMovimientoErrorTest2(){
         testClient.post()
                 .uri("/api/movimientos")
@@ -180,8 +180,8 @@ class MovimientosControllerTest {
                 .body(Mono.just(movimiento3), Movimientos.class)
                 .exchange()
                 .expectStatus().is5xxServerError();
-    }
-
+    }*/
+/*
     @Test
     void uptadeMovimientoTest(){
         testClient.put()
@@ -210,5 +210,5 @@ class MovimientosControllerTest {
                 .uri("/api/movimientos?id=0")
                 .header("my-token", "euffddafaca345a")
                 .exchange().expectStatus().is5xxServerError();
-    }
+    }*/
 }

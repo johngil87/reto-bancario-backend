@@ -1,6 +1,7 @@
 package co.com.sofka.jpa.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -21,6 +22,7 @@ public class MovimientosEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idMovimiento;
     private Date fecha;
+    @NotBlank
     private String tipo;
     private Double valor;
     private Double saldo;
